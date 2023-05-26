@@ -1,12 +1,12 @@
 const cube = [];
-
+const uniqueId = require('uniqid')
 
 exports.getAll = () => cube.slice()
 
 exports.create = (cubeData) => {
     
     const newCube =  {
-        id: cube.length + 1,
+        id: uniqueId(),
         ...cubeData
     }
     
