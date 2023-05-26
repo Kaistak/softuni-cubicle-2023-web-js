@@ -1,5 +1,5 @@
 const uniqueId = require('uniqid')
-const cube = [
+const cubes = [
     {
         id: '5vqnv2ukli4qdx0v',
         name: 'pesho gubreto',
@@ -9,14 +9,14 @@ const cube = [
     },
     {
         id: '5vqdfv2ukli4qdxiej212v',
-        name: 'pesho gubret1o',
+        name: 'cube 1',
         description: 'very dummy', 
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP3z6r05f2C9kM0rDi-zCDxF5D9gxFGKp7gg&usqp=CAU',
         difficultyLevel: 5
     },
     {
         id: '5vqnv2uk3sdi33qdx0v',
-        name: 'pesho gubreto2',
+        name: 'other cube',
         description: 'very difficult', 
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP3z6r05f2C9kM0rDi-zCDxF5D9gxFGKp7gg&usqp=CAU',
         difficultyLevel: 3
@@ -24,9 +24,25 @@ const cube = [
 ];
 
 
-exports.getOne = (cubeId) => cube.find(x => x.id == cubeId) 
+exports.getOne = (cubeId) => cubes.find(x => x.id == cubeId) 
 
-exports.getAll = () => cube.slice()
+exports.getAll = (search, from, to) => {
+    let result =  cubes.slice();
+
+    if(search) {
+        result = result.filter(cube => cube.name.toLowerCase().includes(search.toLowerCase()))
+    }
+
+    if(from) {
+        result = result.filter(cube => cube.difficultyLevel >= Number(from))
+    }
+
+    if(to) {
+        result = result.filter(cube => cube.difficultyLevel <= Number(to))
+    }
+
+    return result;
+}
 
 exports.create = (cubeData) => {
     
@@ -35,7 +51,7 @@ exports.create = (cubeData) => {
         ...cubeData
     }
     
-    cube.push(newCube)
+    cubes.push(newCube)
 
     return newCube
 }
