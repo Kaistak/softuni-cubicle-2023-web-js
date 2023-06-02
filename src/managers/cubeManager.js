@@ -1,33 +1,9 @@
-const uniqueId = require('uniqid')
-const cubes = [
-    {
-        id: '5vqnv2ukli4qdx0v',
-        name: 'pesho gubreto',
-        description: 'very funny', 
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrUCdgv4rQFAC-NVMQtcqhbnHvWnsZvvVoYw&usqp=CAU',
-        difficultyLevel: 2
-    },
-    {
-        id: '5vqdfv2ukli4qdxiej212v',
-        name: 'cube 1',
-        description: 'very dummy', 
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP3z6r05f2C9kM0rDi-zCDxF5D9gxFGKp7gg&usqp=CAU',
-        difficultyLevel: 5
-    },
-    {
-        id: '5vqnv2uk3sdi33qdx0v',
-        name: 'other cube',
-        description: 'very difficult', 
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP3z6r05f2C9kM0rDi-zCDxF5D9gxFGKp7gg&usqp=CAU',
-        difficultyLevel: 3
-    }
-];
+const Cube = require('../models/Cube');
 
+exports.getOne = (cubeId) => Cube.findById(cubeId);
 
-exports.getOne = (cubeId) => cubes.find(x => x.id == cubeId) 
-
-exports.getAll = (search, from, to) => {
-    let result =  cubes.slice();
+exports.getAll = async (search, from, to) => {
+    let result = await Cube.find().lean();
 
     if(search) {
         result = result.filter(cube => cube.name.toLowerCase().includes(search.toLowerCase()))
@@ -44,14 +20,10 @@ exports.getAll = (search, from, to) => {
     return result;
 }
 
-exports.create = (cubeData) => {
+exports.create = async (cubeData) => {
     
-    const newCube =  {
-        id: uniqueId(),
-        ...cubeData
-    }
-    
-    cubes.push(newCube)
+    const cube = new Cube(cubeData)
+    await cube.save()
 
-    return newCube
+    return cube;
 }
