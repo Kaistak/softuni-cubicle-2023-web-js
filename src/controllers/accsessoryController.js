@@ -1,14 +1,14 @@
 const router = require('express').Router();
+const accsessoryManager = require('../managers/accsessoryManager')
 
 router.get('/create', (req, res) => {
     res.render('accsessory/create')
 });
 
-router.post('/create', (req, res) => {
-    const body = req.body;
+router.post('/create', async (req, res) => {
+    const {name, description, imageUrl} = req.body;
 
-    
-
+    await accsessoryManager.create({name, description, imageUrl})
     res.redirect('/')
 })
 
