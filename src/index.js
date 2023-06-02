@@ -10,6 +10,7 @@ const PORT = 5000;
 
 expressConfig(app);
 handlebarsConfig(app);
+
 dbConnect()
     .then(() => console.log('DB is connected...'))
     .catch(err => console.log('Db err: ', err))
